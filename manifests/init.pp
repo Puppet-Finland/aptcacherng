@@ -24,6 +24,10 @@
 #
 class aptcacherng
 (
+    $listen_addresses = 'localhost',
+    $port = 3142,
+    $allow_address_ipv4 = '127.0.0.1',
+    $allow_address_ipv6 = '::1',    
     $monitor_email = $::servermonitor
 )
 {
@@ -33,6 +37,11 @@ if hiera('manage_aptcacherng', 'true') != 'false' {
 
     include aptcacherng::install
 
+    class { 'aptcacherng::config':
+        listen_addresses => $listen_addresses,
+        port => $port,
+    }
+
     include aptcacherng::service
 
     if tagged('monit') {
@@ -40,5 +49,15 @@ if hiera('manage_aptcacherng', 'true') != 'false' {
             monitor_email => $monitor_email,
         }
     }
+
+    if tagged('packetfilter') {
+
+        class { 'aptcacherng::packetfilter':
+            allow_address_ipv4 => $allow_address_ipv4,
+            allow_address_ipv6 => $allow_address_ipv6,
+            port => $port,
+        }
+    }
+
 }
 }
