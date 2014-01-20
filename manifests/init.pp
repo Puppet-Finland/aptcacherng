@@ -3,6 +3,16 @@
 #
 # Setup apt-cacher-ng, an apt repository proxy server
 #
+# Note that older versions of apt-cacher-ng - such as the one bundled in Ubuntu 
+# 12.04 - have a nasty bug:
+#
+# <http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=676214>
+#
+# If you use this module on a platform that does not provide an up-to-date 
+# version of apt-cacher-ng by default, it's suggested to activate the backports 
+# repos using the apt::proxy class or some other mechanism, and upgrading 
+# apt-cacher-ng manually.
+#
 # == Parameters
 #
 # [*listen_addresses*]
