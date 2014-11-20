@@ -32,7 +32,7 @@
 #
 # == Examples
 #
-# include aptcacherng
+#   include aptcacherng
 #
 # == Authors
 #
@@ -40,8 +40,7 @@
 #
 # == License
 #
-# BSD-lisence
-# See file LICENSE for details
+# BSD-lisence. See file LICENSE for details.
 #
 class aptcacherng
 (
