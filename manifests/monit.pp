@@ -10,6 +10,6 @@ class aptcacherng::monit
 {
     monit::fragment { 'aptcacherng-apt-cacher-ng.monit':
         modulename => 'aptcacherng',
-        basename => 'apt-cacher-ng',
+        basename   => 'apt-cacher-ng',
     }
 }

@@ -7,19 +7,18 @@ class aptcacherng::config
 (
     $listen_addresses,
     $port
-)
+
+) inherits aptcacherng::params
 {
 
-    include aptcacherng::params
-
     file { 'acng.conf':
-        name => "${::aptcacherng::params::config_name}",
-        ensure => present,
+        ensure  => present,
+        name    => $::aptcacherng::params::config_name,
         content => template('aptcacherng/acng.conf.erb'),
-        owner => root,
-        group => root,
-        mode => 644,
+        owner   => $::os::params::adminuser,
+        group   => $::os::params::admingroup,
+        mode    => '0644',
         require => Class['aptcacherng::install'],
-        notify => Class['aptcacherng::service'],
+        notify  => Class['aptcacherng::service'],
     }
 }

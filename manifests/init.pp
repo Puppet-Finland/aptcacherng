@@ -15,6 +15,9 @@
 #
 # == Parameters
 #
+# [*manage*]
+#   Whether to manage apt-cacher-ng with Puppet or not. Valid values are 'yes' 
+#   (default) and 'no'.
 # [*listen_addresses*]
 #   A space-separated list of IP address to listen on (see "BindAddress" in 
 #   apt-cacher-ng documentation). For example '0.0.0.0', 'server.domain.com' or 
@@ -44,38 +47,38 @@
 #
 class aptcacherng
 (
+    $manage = 'yes',
     $listen_addresses = 'localhost',
     $port = 3142,
     $allow_address_ipv4 = '127.0.0.1',
-    $allow_address_ipv6 = '::1',    
+    $allow_address_ipv6 = '::1',
     $monitor_email = $::servermonitor
 )
 {
 
-# Rationale for this is explained in init.pp of the sshd module
-if hiera('manage_aptcacherng', 'true') != 'false' {
+if $manage == 'yes' {
 
-    include aptcacherng::install
+    include ::aptcacherng::install
 
-    class { 'aptcacherng::config':
+    class { '::aptcacherng::config':
         listen_addresses => $listen_addresses,
-        port => $port,
+        port             => $port,
     }
 
-    include aptcacherng::service
+    include ::aptcacherng::service
 
     if tagged('monit') {
-        class { 'aptcacherng::monit':
+        class { '::aptcacherng::monit':
             monitor_email => $monitor_email,
         }
     }
 
     if tagged('packetfilter') {
 
-        class { 'aptcacherng::packetfilter':
+        class { '::aptcacherng::packetfilter':
             allow_address_ipv4 => $allow_address_ipv4,
             allow_address_ipv6 => $allow_address_ipv6,
-            port => $port,
+            port               => $port,
         }
     }
 
