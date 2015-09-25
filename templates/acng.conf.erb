@@ -13,7 +13,7 @@ LogDir: /var/log/apt-cacher-ng
 
 # TCP (http) port
 # Set to 9999 to emulate apt-proxy
-Port:<%= port %>
+Port:<%= @port %>
 
 # Addresses or hostnames to listen on. Multiple addresses must be separated by
 # spaces. Each entry must be an exact local address which is associated with a
@@ -25,7 +25,7 @@ Port:<%= port %>
 # Default: not set, will listen on all interfaces and protocols
 #
 # BindAddress: localhost 192.168.7.254 publicNameOnMainInterface
-BindAddress: <%= listen_addresses %>
+BindAddress: <%= @listen_addresses %>
 
 # The specification of another proxy which shall be used for downloads. Username 
 # and password are, and see manual for limitations.
