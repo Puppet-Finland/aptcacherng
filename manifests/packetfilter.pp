@@ -23,22 +23,24 @@ class aptcacherng::packetfilter
     }
 
     # IPv4 rules
-    firewall { '009 ipv4 accept apt-cacher-ng':
+    @firewall { '009 ipv4 accept apt-cacher-ng':
         provider => 'iptables',
         chain    => 'INPUT',
         proto    => 'tcp',
         source   => $source_v4,
         dport    => $port,
         action   => 'accept',
+        tag      => 'default',
     }
 
     # IPv6 rules
-    firewall { '009 ipv6 accept apt-cacher-ng':
+    @firewall { '009 ipv6 accept apt-cacher-ng':
         provider => 'ip6tables',
         chain    => 'INPUT',
         proto    => 'tcp',
         source   => $source_v6,
         dport    => $port,
         action   => 'accept',
+        tag      => 'default',
     }
 }

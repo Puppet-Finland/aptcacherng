@@ -16,8 +16,11 @@
 # == Parameters
 #
 # [*manage*]
-#   Whether to manage apt-cacher-ng with Puppet or not. Valid values are 'yes' 
-#   (default) and 'no'.
+#   Manage apt-cacher-ng with Puppet. Valid values are true (default) and false.
+# [*manage_packetfilter*]
+#   Manage packet filtering rules. Valid values are true (default) and false.
+# [*manage_monit*]
+#   Manage monit rules. Valid values are true (default) and false.
 # [*listen_addresses*]
 #   A space-separated list of IP address to listen on (see "BindAddress" in 
 #   apt-cacher-ng documentation). For example '0.0.0.0', 'server.domain.com' or 
@@ -47,7 +50,9 @@
 #
 class aptcacherng
 (
-    $manage = 'yes',
+    Boolean $manage = true,
+    Boolean $manage_packetfilter = true,
+    Boolean $manage_monit = true,
     $listen_addresses = 'localhost',
     $port = 3142,
     $allow_address_ipv4 = '127.0.0.1',
@@ -56,7 +61,7 @@ class aptcacherng
 )
 {
 
-if $manage == 'yes' {
+if $manage {
 
     include ::aptcacherng::install
 
@@ -67,13 +72,13 @@ if $manage == 'yes' {
 
     include ::aptcacherng::service
 
-    if tagged('monit') {
+    if $manage_monit {
         class { '::aptcacherng::monit':
             monitor_email => $monitor_email,
         }
     }
 
-    if tagged('packetfilter') {
+    if $manage_packetfilter {
 
         class { '::aptcacherng::packetfilter':
             allow_address_ipv4 => $allow_address_ipv4,

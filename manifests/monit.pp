@@ -8,8 +8,9 @@ class aptcacherng::monit
     $monitor_email
 )
 {
-    monit::fragment { 'aptcacherng-apt-cacher-ng.monit':
+    @monit::fragment { 'aptcacherng-apt-cacher-ng.monit':
         modulename => 'aptcacherng',
         basename   => 'apt-cacher-ng',
+        tag        => 'default',
     }
 }
