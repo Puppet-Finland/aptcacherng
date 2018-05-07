@@ -4,18 +4,13 @@ A Puppet module for managing apt-cacher-ng
 
 # Module usage
 
-* [Class: aptcacherng](manifests/init.pp)
+Simple usage:
 
-# Dependencies
+    include ::aptcacherng
 
-See [metadata.json](metadata.json).
+Customize listen address and limit (with iptables) the IP ranges:
 
-# Operating system support
-
-This module has been tested on
-
-* Ubuntu 12.04 and 14.04
-
-Any Debian derivative should work out of the box or with small modifications.
-
-For details see [params.pp](manifests/params.pp).
+    class { '::aptcacherng':
+      listen_addresses   => 'localhost apt.example.org',
+      allow_address_ipv4 => '10.182.130.0/24',
+    }
