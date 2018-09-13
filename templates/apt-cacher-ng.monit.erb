@@ -1,6 +1,6 @@
 ### THIS FILE IS MANAGED BY PUPPET. ANY MANUAL CHANGES WILL GET OVERWRITTEN.
 
-check process apt-cacher-ng with pidfile <%= scope['aptcacherng::params::pidfile'] %>
+check process apt-cacher-ng matching "<%= scope['aptcacherng::params::process_match'] %>"
    start program = "<%= scope['aptcacherng::params::service_start'] %>"
    stop  program = "<%= scope['aptcacherng::params::service_stop'] %>"
    alert <%= scope['aptcacherng::monit::monitor_email'] %> with reminder on 480 cycles

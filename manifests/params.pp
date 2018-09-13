@@ -12,7 +12,7 @@ class aptcacherng::params {
             $service_name = 'apt-cacher-ng'
             $service_start = "/usr/sbin/service ${service_name} start"
             $service_stop = "/usr/sbin/service ${service_name} stop"
-            $pidfile = '/var/run/apt-cacher-ng/pid'
+            $process_match = '^/usr/sbin/apt-cacher-ng'
         }
         default: {
             fail("Unsupported operating system ${::osfamily}")
