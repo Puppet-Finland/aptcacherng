@@ -27,10 +27,11 @@ class aptcacherng::config
     
     file { 'zzz_override.conf':
         ensure  => present,
+        name    => $::aptcacherng::params::config_name,
+        content => "CacheDir: ${cache_dir}",
         owner   => $::os::params::adminuser,
         group   => $::os::params::admingroup,
         mode    => '0644',
-        content => "CacheDir: ${cache_dir}"
         require => Class['aptcacherng::install'],
         notify  => Class['aptcacherng::service'],
     }
