@@ -24,7 +24,7 @@ class aptcacherng::config
         notify  => Class['aptcacherng::service'],
     }
 
-    
+
     file { 'zzz_override.conf':
         ensure  => present,
         name    => $::aptcacherng::params::config_name,
