@@ -6,7 +6,9 @@
 class aptcacherng::config
 (
     $listen_addresses,
-    $port
+    $port,
+    $cache_dir,
+    $pass_through_pattern,
 
 ) inherits aptcacherng::params
 {
@@ -18,6 +20,17 @@ class aptcacherng::config
         owner   => $::os::params::adminuser,
         group   => $::os::params::admingroup,
         mode    => '0644',
+        require => Class['aptcacherng::install'],
+        notify  => Class['aptcacherng::service'],
+    }
+
+    
+    file { 'zzz_override.conf':
+        ensure  => present,
+        owner   => $::os::params::adminuser,
+        group   => $::os::params::admingroup,
+        mode    => '0644',
+        content => "CacheDir: ${cache_dir}"
         require => Class['aptcacherng::install'],
         notify  => Class['aptcacherng::service'],
     }

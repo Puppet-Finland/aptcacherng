@@ -35,6 +35,10 @@
 # [*monitor_email*]
 #   Email address where local service monitoring software sends it's reports to. 
 #   Defaults to global variable $::servermonitor.
+# [*cache_dir*]
+#   Path to the cache. Defaults to '/var/cache/apt-cacher-ng'
+# [*pass_through_pattern*]
+#   Pattern to allow SSL repositories to bypass the cache. Defaults to '.*'
 #
 # == Examples
 #
@@ -50,14 +54,16 @@
 #
 class aptcacherng
 (
-    Boolean $manage = true,
+    Boolean $manage              = true,
     Boolean $manage_packetfilter = true,
-    Boolean $manage_monit = true,
-    $listen_addresses = 'localhost',
-    $port = 3142,
-    $allow_address_ipv4 = '127.0.0.1',
-    $allow_address_ipv6 = '::1',
-    $monitor_email = $::servermonitor
+    Boolean $manage_monit        = true,
+    $listen_addresses            = 'localhost',
+    Integer $port                = 3142,
+    $allow_address_ipv4          = '127.0.0.1',
+    $allow_address_ipv6          = '::1',
+    $monitor_email               = $::servermonitor,
+    String $cache_dir            = '/var/cache/apt-cacher-ng',
+    String $pass_through_pattern = '.*',
 )
 {
 
@@ -66,8 +72,10 @@ if $manage {
     include ::aptcacherng::install
 
     class { '::aptcacherng::config':
-        listen_addresses => $listen_addresses,
-        port             => $port,
+        listen_addresses     => $listen_addresses,
+        port                 => $port,
+        cache_dir            => $cache_dir,
+        pass_through_pattern => $pass_through_pattern,
     }
 
     include ::aptcacherng::service
