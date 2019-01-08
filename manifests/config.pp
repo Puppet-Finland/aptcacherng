@@ -5,10 +5,10 @@
 #
 class aptcacherng::config
 (
-    $listen_addresses,
-    $port,
-    $cache_dir,
-    $pass_through_pattern,
+    String $listen_addresses,
+    Stdlib::Port $port,
+    Stdlib::Unixpath $cache_dir,
+    String $pass_through_pattern,
 
 ) inherits aptcacherng::params
 {
@@ -27,7 +27,7 @@ class aptcacherng::config
 
     file { 'zzz_override.conf':
         ensure  => present,
-        name    => $::aptcacherng::params::config_name,
+        name    => '/etc/apt-cacher-ng/zzz_override.conf',
         content => "CacheDir: ${cache_dir}",
         owner   => $::os::params::adminuser,
         group   => $::os::params::admingroup,

@@ -54,16 +54,16 @@
 #
 class aptcacherng
 (
-    Boolean $manage              = true,
-    Boolean $manage_packetfilter = true,
-    Boolean $manage_monit        = true,
-    $listen_addresses            = 'localhost',
-    Integer $port                = 3142,
-    $allow_address_ipv4          = '127.0.0.1',
-    $allow_address_ipv6          = '::1',
-    $monitor_email               = $::servermonitor,
-    String $cache_dir            = '/var/cache/apt-cacher-ng',
-    String $pass_through_pattern = '.*',
+    Boolean $manage                             = true,
+    Boolean $manage_packetfilter                = true,
+    Boolean $manage_monit                       = true,
+    String $listen_addresses                    = 'localhost',
+    Stdlib::Port $port                          = 3142,
+    Stdlib::IP::Address::V4 $allow_address_ipv4 = '127.0.0.1',
+    Stdlib::IP::Address::V6 $allow_address_ipv6 = '::1',
+    String $monitor_email                       = $::servermonitor,
+    Stdlib::Unixpath $cache_dir                 = '/var/cache/apt-cacher-ng',
+    String $pass_through_pattern                = '.*',
 )
 {
 
