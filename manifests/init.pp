@@ -22,7 +22,7 @@
 # [*manage_monit*]
 #   Manage monit rules. Valid values are true (default) and false.
 # [*listen_addresses*]
-#   A space-separated list of IP address to listen on (see "BindAddress" in 
+#   An array of IP address or FQDN to listen on (see "BindAddress" in 
 #   apt-cacher-ng documentation). For example '0.0.0.0', 'server.domain.com' or 
 #   'localhost'. Defaults to 'localhost'
 # [*port*]
@@ -35,6 +35,10 @@
 # [*monitor_email*]
 #   Email address where local service monitoring software sends it's reports to. 
 #   Defaults to global variable $::servermonitor.
+# [*cache_dir*]
+#   Path to the cache. Defaults to '/var/cache/apt-cacher-ng'
+# [*pass_through_pattern*]
+#   Pattern to allow SSL repositories to bypass the cache. Defaults to '.*'
 #
 # == Examples
 #
@@ -43,6 +47,7 @@
 # == Authors
 #
 # Samuli Seppänen <samuli@openvpn.net>
+# Elfranne (https://github.com/elfranne)
 #
 # == License
 #
@@ -50,14 +55,16 @@
 #
 class aptcacherng
 (
-    Boolean $manage = true,
-    Boolean $manage_packetfilter = true,
-    Boolean $manage_monit = true,
-    $listen_addresses = 'localhost',
-    $port = 3142,
-    $allow_address_ipv4 = '127.0.0.1',
-    $allow_address_ipv6 = '::1',
-    $monitor_email = $::servermonitor
+    Boolean $manage                             = true,
+    Boolean $manage_packetfilter                = true,
+    Boolean $manage_monit                       = true,
+    Array[Stdlib::Host] $listen_addresses       = ['localhost'],
+    Stdlib::Port $port                          = 3142,
+    Stdlib::IP::Address::V4 $allow_address_ipv4 = '127.0.0.1',
+    Stdlib::IP::Address::V6 $allow_address_ipv6 = '::1',
+    String $monitor_email                       = $::servermonitor,
+    Stdlib::Unixpath $cache_dir                 = '/var/cache/apt-cacher-ng',
+    String $pass_through_pattern                = '.*',
 )
 {
 
@@ -66,8 +73,10 @@ if $manage {
     include ::aptcacherng::install
 
     class { '::aptcacherng::config':
-        listen_addresses => $listen_addresses,
-        port             => $port,
+        listen_addresses     => $listen_addresses,
+        port                 => $port,
+        cache_dir            => $cache_dir,
+        pass_through_pattern => $pass_through_pattern,
     }
 
     include ::aptcacherng::service

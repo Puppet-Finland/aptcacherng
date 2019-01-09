@@ -2,7 +2,7 @@
 # Letter case in directive names does not matter. Must be separated with colons.
 # Valid boolean values are a zero number for false, non-zero numbers for true.
 
-CacheDir: /var/cache/apt-cacher-ng
+CacheDir: <%= @cache_dir %>
 
 # set empty to disable logging
 LogDir: /var/log/apt-cacher-ng
@@ -25,7 +25,7 @@ Port:<%= @port %>
 # Default: not set, will listen on all interfaces and protocols
 #
 # BindAddress: localhost 192.168.7.254 publicNameOnMainInterface
-BindAddress: <%= @listen_addresses %>
+BindAddress: <%= @listen_addresses.join(' ') %>
 
 # The specification of another proxy which shall be used for downloads. Username 
 # and password are, and see manual for limitations.
@@ -293,6 +293,7 @@ ExTreshold: 4
 # Examples: 
 # PassThroughPattern: private-ppa\.launchpad\.net:443$ 
 # PassThroughPattern: .* # this would allow CONNECT to everything
+PassThroughPattern: <%= @pass_through_pattern %>
 
 # It's possible that an evil client requests a volatile file but does not
 # retrieve the response and keeps the connection effectively stuck over

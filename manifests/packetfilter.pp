@@ -5,9 +5,9 @@
 #
 class aptcacherng::packetfilter
 (
-    $allow_address_ipv4,
-    $allow_address_ipv6,
-    $port
+    Stdlib::IP::Address::V4 $allow_address_ipv4,
+    Stdlib::IP::Address::V6 $allow_address_ipv6,
+    Stdlib::Port $port,
 
 ) inherits aptcacherng::params
 {
