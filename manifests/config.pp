@@ -5,7 +5,7 @@
 #
 class aptcacherng::config
 (
-    String $listen_addresses,
+    Array[Stdlib::Host] $listen_addresses,
     Stdlib::Port $port,
     Stdlib::Unixpath $cache_dir,
     String $pass_through_pattern,

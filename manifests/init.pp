@@ -22,7 +22,7 @@
 # [*manage_monit*]
 #   Manage monit rules. Valid values are true (default) and false.
 # [*listen_addresses*]
-#   A space-separated list of IP address to listen on (see "BindAddress" in 
+#   An array of IP address or FQDN to listen on (see "BindAddress" in 
 #   apt-cacher-ng documentation). For example '0.0.0.0', 'server.domain.com' or 
 #   'localhost'. Defaults to 'localhost'
 # [*port*]
@@ -47,6 +47,7 @@
 # == Authors
 #
 # Samuli Seppänen <samuli@openvpn.net>
+# Elfranne (https://github.com/elfranne)
 #
 # == License
 #
@@ -57,7 +58,7 @@ class aptcacherng
     Boolean $manage                             = true,
     Boolean $manage_packetfilter                = true,
     Boolean $manage_monit                       = true,
-    String $listen_addresses                    = 'localhost',
+    Array[Stdlib::Host] $listen_addresses       = ['localhost'],
     Stdlib::Port $port                          = 3142,
     Stdlib::IP::Address::V4 $allow_address_ipv4 = '127.0.0.1',
     Stdlib::IP::Address::V6 $allow_address_ipv6 = '::1',

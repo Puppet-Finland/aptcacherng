@@ -25,7 +25,7 @@ Port:<%= @port %>
 # Default: not set, will listen on all interfaces and protocols
 #
 # BindAddress: localhost 192.168.7.254 publicNameOnMainInterface
-BindAddress: <%= @listen_addresses %>
+BindAddress: <%= @listen_addresses.join(' ') %>
 
 # The specification of another proxy which shall be used for downloads. Username 
 # and password are, and see manual for limitations.
